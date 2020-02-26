@@ -27,7 +27,19 @@ public class PlayerBullet : MonoBehaviour
         // Calculate the maximum position that the bullet can travel to (end of screen)
         Vector2 maxPos = Camera.main.ViewportToWorldPoint(new Vector2(1,1));
 
-        // If Bullet travels outside of the frame, destroy the gameobject
+        // Get the bullet's current position
+        Vector2 position = transform.position;
+
+        // Calculate the new position of the bullet
+        position = new Vector2(position.x, position.y + speed * Time.deltaTime);
+
+        // Update the bullet's position
+        transform.position = position;
+
+        // Max Position the bullet can travel to
+        Vector2 maxPos = Camera.main.ViewportToWorldPoint(new Vector2(1,1));
+
+        //If the bullet goes off the screen, destory the gameobject
         if(transform.position.y > maxPos.y)
         {
             Destroy(gameObject);
