@@ -41,7 +41,7 @@ public class PlayerControl : MonoBehaviour
 
     void Move(Vector2 direction)
     {
-        //SEt max and min of camera view to where user sprite can go
+        //Set max and min of camera view to where user sprite can go
         Vector2 min = Camera.main.ViewportToWorldPoint(new Vector2((float)0.2,0));
         Vector2 max = Camera.main.ViewportToWorldPoint(new Vector2((float)0.8,0));
 
