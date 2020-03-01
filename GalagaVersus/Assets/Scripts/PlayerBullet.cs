@@ -9,6 +9,7 @@ public class PlayerBullet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Sets the speed
         speed = 8f;   
     }
 
@@ -30,6 +31,17 @@ public class PlayerBullet : MonoBehaviour
         //If the bullet goes off the screen, destory the gameobject
         if(transform.position.y > maxPos.y)
         {
+            Destroy(gameObject);
+        }
+    }
+    /// <summary>
+    /// Sent when another object enters a trigger collider attached to this
+    /// object (2D physics only).
+    /// </summary>
+    /// <param name="other">The other Collider2D involved in this collision.</param>
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.tag == "EnemyShipTag"){
             Destroy(gameObject);
         }
     }
