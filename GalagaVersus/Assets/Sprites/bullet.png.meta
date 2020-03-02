@@ -5,6 +5,9 @@ TextureImporter:
   - first:
       213: -2346302928887187388
     second: bullet
+  - first:
+      213: 9178838877367465597
+    second: star
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -129,6 +132,27 @@ TextureImporter:
       bones: []
       spriteID: 448783cdae1407fd0800000000000000
       internalID: -2346302928887187388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: star
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 16
+        width: 2
+        height: 2
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d767800d359c16f70800000000000000
+      internalID: 9178838877367465597
       vertices: []
       indices: 
       edges: []
