@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using Photon.Pun;
 
-public class NewBehaviourScript : MonoBehaviour
+public class PlayerNameInput : MonoBehaviour
 {
     [SerializeField] private TMP_InputField nameInputField = null;
     [SerializeField] private Button continueButton = null;
@@ -28,7 +28,7 @@ public class NewBehaviourScript : MonoBehaviour
         SetPlayerName(defaultName);
     }
 
-    private void SetPlayerName(string name)
+    public void SetPlayerName(string name)
     {
         continueButton.interactable = !string.IsNullOrEmpty(name);
     }
