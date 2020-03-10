@@ -10,19 +10,9 @@ public class PlayerControl : MonoBehaviour
     public GameObject bulletPosition01;
     public GameObject bulletPosition02;
     public float speed;
-    
-    // TO-DO: Implement UI and lives
-
-    // Reference to the lives UI Text
-    public Text LivesUIText; // TO-DO: Remember to drag the text UI in Unity to set this
-    const int maxLives = 3; // For the lives UI and lives system
-    int lives;
 
     public void Init()
     {
-        lives = maxLives;
-        // TO-DO: Uncomment the lines below to add lives
-        // LivesUIText.text = lives.ToString()
         gameObject.SetActive(true);
     }
 
@@ -81,18 +71,15 @@ public class PlayerControl : MonoBehaviour
         //Detect collision of player and enemy ship or bullet
         if( (col.tag == "EnemyShipTag"))
         {
-            lives--; // Subtracts lives
-            // LivesUIText.text = lives.ToString(); // TO-DO : Uncomment
-            if(lives == 0) // If player dies
+            // subtract one from health when hit
+            GetComponent<Health>().updateHealth(-1);
+
+            // if player out of lives
+            if(GetComponent<Health>().health == 0) 
             {
                 gameObject.SetActive(false);
                 GameManagerGO.GetComponent<GameManager>().SetGameManagerState(GameManager.GameManagerState.GameOver);
-                
-            }
-            // We comment this because we just want to hide the player, not completely destroy it
-            // So we can use it for rematches
-            Destroy(gameObject); 
-            
+            } 
         }    
     }
 }
