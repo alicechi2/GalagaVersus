@@ -43,6 +43,6 @@ public class photonConnect : MonoBehaviour
             
         lostConnectionScreen.SetActive(true);
         
-        Debug.Log ("Disconnected from photon services")
+        Debug.Log ("Disconnected from photon services");
     }
 }
