@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc3284eace5a64d4bb516df7d7effdb9, type: 3}
-  m_Name: PunSceneSettingsFile
+  m_Name: PunSceneSettingsFile 2
   m_EditorClassIdentifier: 
   SceneSettingsListFoldoutOpen: 1
   MinViewIdPerScene: []
