@@ -22,8 +22,10 @@ MonoBehaviour:
     Server: 
     Port: 0
     Protocol: 0
+    AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
+  DevRegion: 
   PunLogging: 0
   EnableSupportLogger: 1
   RunInBackground: 1
@@ -31,5 +33,12 @@ MonoBehaviour:
   RpcList:
   - ClickRpc
   - DestroyRpc
+  - DestroySpaceship
+  - Fire
+  - RespawnSpaceship
   DisableAutoOpenWizard: 1
   ShowSettings: 1
+<<<<<<< HEAD
+=======
+  DevRegionSetOnce: 0
+>>>>>>> d00ee36f09f7d11750263a63a20069f7794ec018
