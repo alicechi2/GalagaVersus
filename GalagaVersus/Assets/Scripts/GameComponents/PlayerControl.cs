@@ -9,6 +9,7 @@ public class PlayerControl : MonoBehaviour
     public GameObject PlayerBullet;
     public GameObject bulletPosition01;
     public GameObject bulletPosition02;
+    public GameObject ExplosionGO; // Explosion Animation
     public float speed;
 
     public void Init()
@@ -77,9 +78,19 @@ public class PlayerControl : MonoBehaviour
             // if player out of lives
             if(GetComponent<Health>().health == 0) 
             {
+                PlayExplosion();
                 gameObject.SetActive(false);
                 GameManagerGO.GetComponent<GameManager>().SetGameManagerState(GameManager.GameManagerState.GameOver);
             } 
         }    
+    }
+
+    // Instantiate explosion animation
+    void PlayExplosion()
+    {
+        GameObject explosion = (GameObject)Instantiate(ExplosionGO);
+
+        // Set position of explosion
+        explosion.transform.position = transform.position;
     }
 }
