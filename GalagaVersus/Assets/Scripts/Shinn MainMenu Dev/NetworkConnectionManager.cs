@@ -43,4 +43,26 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         // PhotonNetwork.ConnectToMaster(ip, port, 62e2b6f7-09e9-495c-92fa-24bf602b565d)
         PhotonNetwork.ConnectUsingSettings(); //automatic connection based on the config file in Photon/PhotonUnityNetworking/Resourcs/PhotonServerSettings.asset
     }
+
+    // When the something goes wrong with connecting to the server
+    public override void OnDisconnected(DisconnectCause cause) {
+        base.OnDisconnected(cause);
+
+        // As soon as disconnected, set these conditions to false
+        ConnectToMasterAttempt = false;
+        ConnectToRoomAttempt = false;
+
+        // Print out on the console to see what is wrong
+        Debug.Log(cause);
+    }
+
+    // When the user successfully connects to the master server
+    public override void OnConnectedToMaster() 
+    {
+        base.OnConnectedToMaster();
+        // There are no more attempts necessary, so set this condition to false
+        ConnectToMasterAttempt = false;
+        // Print out that connection was successful
+        Debug.Log("Connection successful to Master server");
+    }
 }
