@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 {
@@ -66,5 +67,53 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         ConnectToMasterAttempt = false;
         // Print out that connection was successful
          Debug.Log("Connection successful to Master server");
+    }
+
+    // When the user clicks the button to connect to a room
+    public void OnClickConnectToRoom()
+    {
+        // If the Photon Network is not connected, we should return
+        if (!PhotonNetwork.IsConnected) {
+            return;
+        }
+
+        ConnectToRoomAttempt = true;
+
+        // Have Photon guide the suer to a random room
+        PhotonNetwork.JoinRandomRoom(); // - Error: OnJoinedRandomRoomFailed
+    }
+
+    // When the user is able to join a random room, then this function is called
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+        ConnectToRoomAttempt = true;
+
+        // One player is always set as master so that he or she can make executive decisions
+        // On the console, print out the number of players who are currently in the game lobby
+        Debug.Log("Master: " + PhotonNetwork.IsMasterClient + " | PLayers in Room: " + PhotonNetwork.CurrentRoom.PlayerCount);
+        // After the Room is Joined, it will launch the scene GameEngine to play the game
+        SceneManager.LoadScene("GameEngine"); 
+    }
+
+    // When JoinRandomRoom() fails which means that there are no available rooms for the player
+    public override void OnJoinRandomFailed(short returnCode, string message)
+    {
+        base.OnJoinRandomFailed(returnCode, message);
+        ConnectToRoomAttempt = true;
+
+        // This could signify that no rooms are currently available
+        // Create a new join room where the name of the room is temporarily set to null
+        // For our game, the max players who can join must be two
+        PhotonNetwork.CreateRoom(null, new RoomOptions {MaxPlayers = 2});
+    }
+
+    // When the player is unable to crete a new room. For example, when the player passes a room
+    // condition that violates rules set forth by the Photon server
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        base.OnCreateRoomFailed(returnCode, message);
+        Debug.Log(message);
+        ConnectToRoomAttempt = false;
     }
 }
