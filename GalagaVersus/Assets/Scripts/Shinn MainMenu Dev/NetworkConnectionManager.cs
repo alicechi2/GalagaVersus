@@ -2,6 +2,7 @@
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class NetworkConnectionManager : MonoBehaviourPunCallbacks
@@ -54,7 +55,7 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         ConnectToRoomAttempt = false;
 
         // Print out on the console to see what is wrong
-        System.Diagnostics.Debug.WriteLine(cause);
+        Debug.Log(cause);
     }
 
     // When the user successfully connects to the master server
@@ -64,6 +65,6 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         // There are no more attempts necessary, so set this condition to false
         ConnectToMasterAttempt = false;
         // Print out that connection was successful
-         System.Diagnostics.Debug.WriteLine("Connection successful to Master server");
+         Debug.Log("Connection successful to Master server");
     }
 }

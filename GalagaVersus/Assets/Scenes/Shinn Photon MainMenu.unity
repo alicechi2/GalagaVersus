@@ -150,8 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fabdbcad01f04386a532821e6a76940, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BtnJoinRoom: {fileID: 0}
-  BtnConnectMaster: {fileID: 0}
+  BtnJoinRoom: {fileID: 138149362}
+  BtnConnectMaster: {fileID: 1363475233}
   ConnectToMasterAttempt: 0
   ConnectToRoomAttempt: 0
 --- !u!4 &119141898
