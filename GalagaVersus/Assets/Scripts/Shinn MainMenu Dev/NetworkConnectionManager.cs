@@ -8,28 +8,50 @@ using UnityEngine.SceneManagement;
 
 public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 {
-    // Declare the two buttons as public variables
+    // Declare the MainMenu Gameobjects as public variables
     public Button BtnJoinRoom;
     public Button BtnConnectMaster;
+    public Canvas CanvasDisconnectFromMaster;
+    public Button BtnJoinWhenDisconnect;
+    public Button BtnQuitWhenDisconnect;
+    public Text TextDisconnectNotifier;
 
     // Declare a public boolean to keep track of the state of the user attempts to 
     // connect to the master server and the join room
     public bool ConnectToMasterAttempt;
     public bool ConnectToRoomAttempt;
+    public bool Disconnected;
+    public bool CanvasDisplayed;
+
+    // Data Values for Room settings
+    [SerializeField]
+    private byte maxPlayersPerRoom = 2;
+    [SerializeField]
+    private bool roomVisible = true;
 
     // Use this for initialization
     void Start()
     {
+        // Initially set these four to false
         ConnectToMasterAttempt = false;
         ConnectToRoomAttempt = false;
+        Disconnected = false;
+        CanvasDisplayed = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // The Buttons are set to active when the server is not connected and the conditions for the connection atempts are fulfilled
+        // The Buttons are set to active when the server is not connected and the conditions for the connection attempts are fulfilled
         BtnConnectMaster.gameObject.SetActive(!PhotonNetwork.IsConnected && !ConnectToRoomAttempt);
         BtnJoinRoom.gameObject.SetActive(PhotonNetwork.IsConnected && !ConnectToMasterAttempt && !ConnectToRoomAttempt);
+
+        // The Canvas has to be set active when all the conditions are true, and the game is not connected to the Photon server
+        CanvasDisconnectFromMaster.gameObject.SetActive(!PhotonNetwork.IsConnected && !Disconnected);
+        // The buttons and text on the canvas are set active when the game is disconnected and the canvas is displayed
+        BtnJoinWhenDisconnect.gameObject.SetActive(!Disconnected && !CanvasDisplayed);
+        BtnQuitWhenDisconnect.gameObject.SetActive(!Disconnected && !CanvasDisplayed);
+        TextDisconnectNotifier.gameObject.SetActive(!Disconnected && !CanvasDisplayed);
     }
 
     // When the button ConnectToMaster is pressed
@@ -54,6 +76,9 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         // As soon as disconnected, set these conditions to false
         ConnectToMasterAttempt = false;
         ConnectToRoomAttempt = false;
+
+        // Set the disconnected condition to be true
+        Disconnected = true;
 
         // Print out on the console to see what is wrong
         Debug.Log(cause);
@@ -104,8 +129,12 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 
         // This could signify that no rooms are currently available
         // Create a new join room where the name of the room is temporarily set to null
-        // For our game, the max players who can join must be two
-        PhotonNetwork.CreateRoom(null, new RoomOptions {MaxPlayers = 2});
+        PhotonNetwork.CreateRoom(null, new RoomOptions {
+            MaxPlayers = maxPlayersPerRoom, // max players who can join must be two
+            PlayerTtl = 30000, // Time To Live: Player (If player is inactive for 30 seconds,remove from room)
+            EmptyRoomTtl = 30000, // Time To Live: Room (Keep room in memory and remove room 30 seconds after last player leaves)
+            IsVisible = roomVisible // Set the visibility of the room to player's choice (either public or private)
+            });
     }
 
     // When the player is unable to crete a new room. For example, when the player passes a room
@@ -115,5 +144,16 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         base.OnCreateRoomFailed(returnCode, message);
         Debug.Log(message);
         ConnectToRoomAttempt = false;
+    }
+
+    // When the user gets disconnected and decides to Quit the game
+    public override void OnLeftLobby()
+    {
+        base.OnLeftLobby();
+        // If the player decides to quit, set disconnect to false again
+        Disconnected = false;
+
+        // Print out that the user decided to quit
+         Debug.Log("Player chose to quit game when server disconnected");
     }
 }
