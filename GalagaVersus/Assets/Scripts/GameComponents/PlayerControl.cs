@@ -12,6 +12,10 @@ public class PlayerControl : MonoBehaviour
     public GameObject ExplosionGO; // Explosion Animation
     public float speed;
 
+    public Color spriteColor; //default color of sprite
+    public bool canShoot;
+    public bool invincible;
+
     public void Init()
     {
         gameObject.SetActive(true);
@@ -20,14 +24,16 @@ public class PlayerControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        spriteColor = Color.white;
+        canShoot = true;
+        invincible = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         // Fire bullets if space pressed
-        if(Input.GetKeyDown("space"))
+        if(Input.GetKeyDown("space") && canShoot)
         {
             GameObject bullet01 = (GameObject)Instantiate(PlayerBullet);
             bullet01.transform.position = bulletPosition01.transform.position;
@@ -70,10 +76,12 @@ public class PlayerControl : MonoBehaviour
     void OnTriggerEnter2D(Collider2D col) 
     {
         //Detect collision of player and enemy ship or bullet
-        if( (col.tag == "EnemyShipTag"))
+        if(col.tag == "EnemyShipTag" && !invincible)
         {
             // subtract one from health when hit
             GetComponent<Health>().updateHealth(-1);
+
+            StartCoroutine(Flash());
 
             // if player out of lives
             if(GetComponent<Health>().health == 0) 
@@ -93,4 +101,22 @@ public class PlayerControl : MonoBehaviour
         // Set position of explosion
         explosion.transform.position = transform.position;
     }
+
+    IEnumerator Flash()
+    {
+        canShoot = false;
+        invincible = true;
+        for (int n = 0; n < 3; n++)
+        {
+            SetSpriteColor(Color.clear);
+            yield return new WaitForSeconds(0.1f);
+            SetSpriteColor(spriteColor);
+            yield return new WaitForSeconds(0.1f);
+        }
+        canShoot = true;
+        invincible = false;
+    }
+
+    void SetSpriteColor(Color color) => GetComponentInChildren<SpriteRenderer>().color = color;
+
 }
