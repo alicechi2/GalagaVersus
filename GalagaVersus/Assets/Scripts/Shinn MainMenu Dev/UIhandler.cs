@@ -1,18 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using UnityEngine.UI;
 
 public class UIhandler : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public InputField createRoomText;
+    public InputField joinRoomText;
+    public void OnClick_JoinRoom() {
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void OnClick_CreateRoom() {
     }
 }
