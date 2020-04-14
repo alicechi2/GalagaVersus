@@ -229,7 +229,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 343.5, y: 187.91}
+  m_AnchoredPosition: {x: 343.5, y: 371.89993}
   m_SizeDelta: {x: 39, y: 36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &395916347
@@ -393,6 +393,9 @@ MonoBehaviour:
   ExplosionGO: {fileID: 856646942770484443, guid: dea19b15223a8324f999714b09102b27,
     type: 3}
   speed: 5.5
+  spriteColor: {r: 0, g: 0, b: 0, a: 0}
+  canShoot: 0
+  invincible: 0
 --- !u!212 &522207500
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -607,7 +610,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 368.7, y: 187.91}
+  m_AnchoredPosition: {x: 368.7, y: 371.9}
   m_SizeDelta: {x: 39, y: 36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &984525190
@@ -831,7 +834,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 318.2, y: 187.91}
+  m_AnchoredPosition: {x: 318.2, y: 371.89993}
   m_SizeDelta: {x: 39, y: 36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1365455533
@@ -1008,7 +1011,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -126.20001, y: -27.999023}
+  m_AnchoredPosition: {x: -145, y: -28}
   m_SizeDelta: {x: 96, y: 36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1792166240

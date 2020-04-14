@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Photon.Pun;
-using Photon.Realtime;
 
-public class PlayerControl : MonoBehaviourPun
+public class PlayerControl : MonoBehaviour
 {
     public GameObject GameManagerGO; // This is our game manager
     public GameObject PlayerBullet;
@@ -20,9 +18,7 @@ public class PlayerControl : MonoBehaviourPun
 
     public void Init()
     {
-        // destory spaceship gameobject if the player is not controlling the object
-        if (!photonView.IsMine)
-            gameObject.SetActive(true);
+        gameObject.SetActive(true);
 ;
     }
 
