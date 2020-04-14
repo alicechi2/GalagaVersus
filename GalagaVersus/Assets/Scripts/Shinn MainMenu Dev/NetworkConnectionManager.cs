@@ -15,6 +15,10 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     public Button BtnQuitWhenDisconnect;
     public Text TextDisconnectNotifier;
 
+    // Declare Connect and Disconnect Gameobjects as public variables
+    public GameObject connectPhoton;
+    public GameObject disconnectPhoton;
+
     // Declare a public boolean to keep track of the state of the user attempts to 
     // connect to the master server and the join room
     public bool ConnectToMasterAttempt;
@@ -60,7 +64,7 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         // Settings for configuring the Photon Network
         PhotonNetwork.OfflineMode = false; // Setting this to true would fake an online connection
         PhotonNetwork.NickName = "PlayerName"; // This is the settings to configure a player nickname
-        PhotonNetwork.AutomaticallySyncScene  = true; //to call PhotonNetwork.LoadLevel()
+        // PhotonNetwork.AutomaticallySyncScene  = true; //to call PhotonNetwork.LoadLevel()
         PhotonNetwork.GameVersion = "v1"; // This is to restrict players with different versions from playing together
 
         ConnectToMasterAttempt = true;
@@ -116,6 +120,9 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     // When the user is able to join a random room, then this function is called
     public override void OnJoinedRoom()
     {
+        if (disconnectPhoton.activeSelf)
+            disconnectPhoton.SetActive(false);
+
         base.OnJoinedRoom();
         ConnectToRoomAttempt = false;
 
@@ -150,15 +157,4 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         Debug.Log(message);
         ConnectToRoomAttempt = false;
     }
-
-    // // When the user gets disconnected and decides to Quit the game
-    // public override void OnLeftLobby()
-    // {
-    //     base.OnLeftLobby();
-    //     // If the player decides to quit, set disconnect to false again
-    //     Disconnected = false;
-
-    //     // Print out that the user decided to quit
-    //      Debug.Log("Player chose to quit game when server disconnected");
-    // }
 }

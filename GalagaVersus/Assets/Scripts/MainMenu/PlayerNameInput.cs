@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using Photon.Pun;
 
-public class PlayerNameInput : MonoBehaviour
+public class PlayerNameInput : MonoBehaviourPun
 {
     [SerializeField] private TMP_InputField nameInputField = null;
     [SerializeField] private Button continueButton = null;

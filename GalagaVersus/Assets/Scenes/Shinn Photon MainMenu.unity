@@ -155,6 +155,8 @@ MonoBehaviour:
   BtnJoinWhenDisconnect: {fileID: 138149362}
   BtnQuitWhenDisconnect: {fileID: 1859921508}
   TextDisconnectNotifier: {fileID: 935320828}
+  connectPhoton: {fileID: 1821623412}
+  disconnectPhoton: {fileID: 2047214555}
   ConnectToMasterAttempt: 0
   ConnectToRoomAttempt: 0
   Disconnected: 0
@@ -338,8 +340,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1622, y: 1108}
+  m_AnchoredPosition: {x: 185, y: 0}
+  m_SizeDelta: {x: 2000, y: 1404}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &192983035
 MonoBehaviour:
@@ -959,7 +961,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -450, y: 250}
+  m_AnchoredPosition: {x: -600, y: 250}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1726238889
