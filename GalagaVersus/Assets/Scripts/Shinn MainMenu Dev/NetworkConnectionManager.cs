@@ -14,11 +14,12 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     public Button BtnJoinWhenDisconnect;
     public Button BtnQuitWhenDisconnect;
     public Button BtnCreateRoom;
-    public Text TextDisconnectNotifier;
 
-    // Declare Connect and Disconnect Gameobjects as public variables
-    public GameObject connectPhoton;
+    // Declare Disconnect Gameobject as a public variable
     public GameObject disconnectPhoton;
+
+    // Declare ConnectedScreen Gameobject as a public variable
+    public GameObject connectedScreen;
 
     // Declare a public boolean to keep track of the state of the user attempts to 
     // connect to the master server and the join room
@@ -53,12 +54,12 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     {
         // The Buttons are set to active when the server is not connected and the conditions for the connection attempts are fulfilled
         BtnConnectMaster.gameObject.SetActive(!PhotonNetwork.IsConnected && !ConnectToRoomAttempt);
-        BtnJoinRoom.gameObject.SetActive(PhotonNetwork.IsConnected && !ConnectToMasterAttempt && !ConnectToRoomAttempt);
+        connectedScreen.gameObject.SetActive(PhotonNetwork.IsConnected && !ConnectToMasterAttempt && !ConnectToRoomAttempt);
 
         // The buttons and text on the canvas are set active when the game is disconnected and the canvas is displayed
         BtnJoinWhenDisconnect.gameObject.SetActive(!PhotonNetwork.IsConnected && Disconnected);
         BtnQuitWhenDisconnect.gameObject.SetActive(!PhotonNetwork.IsConnected && Disconnected);
-        TextDisconnectNotifier.gameObject.SetActive(!PhotonNetwork.IsConnected && Disconnected);
+        disconnectPhoton.gameObject.SetActive(!PhotonNetwork.IsConnected && Disconnected);
     }
 
     // When the button ConnectToMaster is pressed
@@ -127,17 +128,19 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 
         ConnectToRoomAttempt = true;
 
-        // join a specific room using the room name that the user passes in
-        PhotonNetwork.JoinRoom(joinRoomInput.text, null); // Join a specific Room - Error: OnJoinRoomFailed
+        if (joinRoomInput.text != null) {
+            // If the user passed in a valid room name, join that specific room
+            PhotonNetwork.JoinRoom(joinRoomInput.text, null); // Join a specific Room - Error: OnJoinRoomFailed
+        }
+        else {
+            // If the user did not pass in a valid room name, by default, join a random room
+            PhotonNetwork.JoinRandomRoom(); // - Error: OnJoinedRandomRoomFailed
+        }  
     }
 
     // When the user fails to join a specific room, then this function is called
     public override void OnJoinRoomFailed(short returnCode, string message) {
         base.OnJoinRoomFailed(returnCode, message);
-
-        // This could signify that the user did not pass in a valid input for the joinRoomInput field
-        // If this happens, first try to connect the user to a random room
-        PhotonNetwork.JoinRandomRoom(); // - Error: OnJoinedRandomRoomFailed
 
         // print the Debug message
         Debug.Log("SpecificRoomCreationFailed. Code: " + returnCode + "Message: " + message);
