@@ -13,6 +13,7 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     public Button BtnConnectMaster;
     public Button BtnJoinWhenDisconnect;
     public Button BtnQuitWhenDisconnect;
+    public Button BtnCreateRoom;
     public Text TextDisconnectNotifier;
 
     // Declare Connect and Disconnect Gameobjects as public variables
@@ -33,6 +34,10 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 
     // Variable keep track of roomName declared by players
     public string roomName;
+
+    // Variable for receiving user data for the name of join rooms
+    public InputField joinRoomInput;
+    public InputField createRoomInput;
 
     // Use this for initialization
     void Start()
@@ -101,7 +106,19 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     }
 
     // When the user clicks the button to connect to a room
-    public void OnClickConnectToRoom()
+    public void OnClickCreateRoom()
+    {
+        // If the Photon Network is not connected, we should return
+        if (!PhotonNetwork.IsConnected) {
+            return;
+        }
+
+        // Create a specific room if the user passes in a valid name
+        PhotonNetwork.CreateRoom(createRoomInput.text, new RoomOptions { MaxPlayers = maxPlayersPerRoom}, null); // Create a specific Room - Error: OnCreateRoomFailed
+    }
+
+    // When the user clicks the button to connect to a specific room
+    public void OnClickJoinRoom()
     {
         // If the Photon Network is not connected, we should return
         if (!PhotonNetwork.IsConnected) {
@@ -110,11 +127,20 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 
         ConnectToRoomAttempt = true;
 
-        // PhotonNetwork.CreateRoom("{0}", roomName); // Create a specific Room - Error: OnCreateRoomFailed
-        // PhotonNetwork.JoinRoom("{0}", roomName); // Join a specific Room - Error: OnJoinRoomFailed
+        // join a specific room using the room name that the user passes in
+        PhotonNetwork.JoinRoom(joinRoomInput.text, null); // Join a specific Room - Error: OnJoinRoomFailed
+    }
 
-        // Have Photon guide the suer to a random room
+    // When the user fails to join a specific room, then this function is called
+    public override void OnJoinRoomFailed(short returnCode, string message) {
+        base.OnJoinRoomFailed(returnCode, message);
+
+        // This could signify that the user did not pass in a valid input for the joinRoomInput field
+        // If this happens, first try to connect the user to a random room
         PhotonNetwork.JoinRandomRoom(); // - Error: OnJoinedRandomRoomFailed
+
+        // print the Debug message
+        Debug.Log("SpecificRoomCreationFailed. Code: " + returnCode + "Message: " + message);
     }
 
     // When the user is able to join a random room, then this function is called
@@ -140,13 +166,14 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         base.OnJoinRandomFailed(returnCode, message);
 
         // This could signify that no rooms are currently available
-        // Create a new join room where the name of the room is temporarily set to null
-        PhotonNetwork.CreateRoom(null, new RoomOptions {
+        // Create a new join room where the name of the room is temporarily set to Testing Room
+        PhotonNetwork.CreateRoom("Testing Room ", new RoomOptions {
             MaxPlayers = maxPlayersPerRoom, // max players who can join must be two
             PlayerTtl = 30000, // Time To Live: Player (If player is inactive for 30 seconds,remove from room)
             EmptyRoomTtl = 30000, // Time To Live: Room (Keep room in memory and remove room 30 seconds after last player leaves)
             IsVisible = roomVisible // Set the visibility of the room to player's choice (either public or private)
-            });
+            }, null
+        );
     }
 
     // When the player is unable to crete a new room. For example, when the player passes a room
