@@ -50,15 +50,15 @@ public class PlayerControl : MonoBehaviourPun, IPunObservable
     // Update is called once per frame
     void Update()
     {
-        // if (photonView.IsMine) // Make sure that the user is a local photon player
-        // {
+        if (photonView.IsMine) // Make sure that the user is a local photon player
+        {
             // Call function that handles user inputs
             ProcessUserInputs();
-        // }
-        // else {
-        //     // When the photonView discovers that you are not a local player
-        //     smoothMovement();
-        // }
+        }
+        else {
+            // When the photonView discovers that you are not a local player
+            smoothMovement();
+        }
     }
 
     // non-local player handling function (makes user movement more smooth)

@@ -8,10 +8,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MainMenu.unity
     guid: 12632bd7b2f66684bb901aa2d872b996
   - enabled: 1
     path: Assets/Scenes/GameEngine.unity
     guid: dc9421dd536ea6149bae5d9dd5b8e457
+  - enabled: 1
+    path: Assets/Scenes/Shinn Photon MainMenu.unity
+    guid: 39cb52b95ba36472693f9b161ad29842
   m_configObjects: {}
