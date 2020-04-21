@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -19,7 +20,6 @@ public class PlayerControl : MonoBehaviour
     public void Init()
     {
         gameObject.SetActive(true);
-;
     }
 
     // Start is called before the first frame update
