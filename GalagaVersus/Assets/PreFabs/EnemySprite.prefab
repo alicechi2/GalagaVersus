@@ -98,6 +98,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ExplosionGO: {fileID: 856646942770484443, guid: dea19b15223a8324f999714b09102b27,
     type: 3}
+  enemySpawnPath: {fileID: 0}
+  pathSpeed: 2
+  reachedEnd: 0
 --- !u!61 &2820446388642886337
 BoxCollider2D:
   m_ObjectHideFlags: 0
