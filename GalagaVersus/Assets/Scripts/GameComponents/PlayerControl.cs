@@ -21,6 +21,10 @@ public class PlayerControl : MonoBehaviourPun, IPunObservable
 
     private Vector2 betterMove; // declare a variable to decrease lag between user movements
 
+    // Define two variables to account for switching between the two cameras
+    private GameObject sceneCamera;
+    public GameObject playerCamera;
+
     public void Init()
     {
         gameObject.SetActive(true);
@@ -32,20 +36,29 @@ public class PlayerControl : MonoBehaviourPun, IPunObservable
         spriteColor = Color.white;
         canShoot = true;
         invincible = false;
+
+        // On start, disable the scene camera and enable the player camera if the user is a local photon player
+        if (photonView.IsMine)
+        {
+            // Have the playerCamera be set with the same settings as the Main Camera under the GameEngine scene
+            playerCamera = GameObject.Find("Main Camera");
+            sceneCamera.SetActive(false);
+            playerCamera.SetActive(true);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (photonView.IsMine) // Make sure that the user is a local photon player
-        {
+        // if (photonView.IsMine) // Make sure that the user is a local photon player
+        // {
             // Call function that handles user inputs
             ProcessUserInputs();
-        }
-        else {
-            // When the photonView discovers that you are not a local player
-            smoothMovement();
-        }
+        // }
+        // else {
+        //     // When the photonView discovers that you are not a local player
+        //     smoothMovement();
+        // }
     }
 
     // non-local player handling function (makes user movement more smooth)
