@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 {
@@ -36,9 +37,9 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     // Variable keep track of roomName declared by players
     public string roomName;
 
-    // Variable for receiving user data for the name of join rooms
-    public InputField joinRoomInput;
-    public InputField createRoomInput;
+    // Variables for Reciving TMP text data for the name of join rooms
+    public TMP_InputField joinRoomInput;
+    public TMP_InputField createRoomInput;
 
     // Use this for initialization
     void Start()
