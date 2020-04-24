@@ -219,7 +219,6 @@ MonoBehaviour:
   canShoot: 0
   invincible: 0
   pv: {fileID: 8250163772610563987}
-  sceneCamera: {fileID: 0}
   playerCamera: {fileID: 449170399}
 --- !u!114 &8250163772610563987
 MonoBehaviour:
