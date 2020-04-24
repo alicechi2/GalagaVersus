@@ -25,6 +25,8 @@ public class PlayerControl : MonoBehaviourPun, IPunObservable
     private GameObject sceneCamera;
     public GameObject playerCamera;
 
+    public SpriteRenderer sr;
+
     public void Init()
     {
         gameObject.SetActive(true);
@@ -79,6 +81,8 @@ public class PlayerControl : MonoBehaviourPun, IPunObservable
             GameObject bullet02 = (GameObject)Instantiate(PlayerBullet);
             bullet02.transform.position = bulletPosition02.transform.position;
         }
+
+        if ()
 
         // Move left and right depending on player input
             float x = Input.GetAxisRaw("Horizontal");
