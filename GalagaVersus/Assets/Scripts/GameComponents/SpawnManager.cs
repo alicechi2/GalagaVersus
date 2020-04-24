@@ -10,6 +10,7 @@ public class SpawnManager : MonoBehaviour
     public GameObject playerPrefab;
 
     // Start is called before the first frame update
+    // No need to check if player is local as the scene will only load when it is
     void Start()
     {
         // Call the spawn player function below
