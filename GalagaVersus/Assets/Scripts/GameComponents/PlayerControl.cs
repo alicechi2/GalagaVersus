@@ -21,10 +21,6 @@ public class PlayerControl : MonoBehaviourPun, IPunObservable
 
     private Vector2 betterMove; // declare a variable to decrease lag between user movements
 
-    // Define two variables to account for switching between the two cameras
-    private GameObject sceneCamera;
-    public GameObject playerCamera;
-
     public SpriteRenderer sr;
 
     public void Init()
@@ -42,10 +38,10 @@ public class PlayerControl : MonoBehaviourPun, IPunObservable
         // On start, disable the scene camera and enable the player camera if the user is a local photon player
         if (photonView.IsMine)
         {
+            // Implement the switch between two cameras
             // Have the playerCamera be set with the same settings as the Main Camera under the GameEngine scene
-            playerCamera = GameObject.Find("Main Camera");
-            sceneCamera.SetActive(false);
-            playerCamera.SetActive(true);
+            GameObject.Find("MainCamera").GetComponent<Camera>().enabled = false;
+            GameObject.Find("PlayerCamera").GetComponent<Camera>().enabled = true;
         }
     }
 
@@ -81,7 +77,7 @@ public class PlayerControl : MonoBehaviourPun, IPunObservable
             GameObject bullet02 = (GameObject)Instantiate(PlayerBullet);
             bullet02.transform.position = bulletPosition02.transform.position;
 
-            pv.RPC("");
+            // pv.RPC("");
         }
 
         // Move left and right depending on player input
@@ -96,24 +92,27 @@ public class PlayerControl : MonoBehaviourPun, IPunObservable
     // Function that handles spaceship movement
     void Move(Vector2 direction)
     {
-        // Set max and min of camera view to where user sprite can go
-        Vector2 min = Camera.main.ViewportToWorldPoint(new Vector2((float)0.2,0));
-        Vector2 max = Camera.main.ViewportToWorldPoint(new Vector2((float)0.8,0));
+        if (photonView.IsMine)
+        {
+            // Set max and min of camera view to where user sprite can go
+            Vector2 min = Camera.main.ViewportToWorldPoint(new Vector2((float)0.2,0));
+            Vector2 max = Camera.main.ViewportToWorldPoint(new Vector2((float)0.8,0));
 
-        max.x = max.x - 0.5f; //half sprite width
-        min.x = min.x + 0.5f;
+            max.x = max.x - 0.5f; //half sprite width
+            min.x = min.x + 0.5f;
 
-        // Get player position
-        Vector2 pos = transform.position;
+            // Get player position
+            Vector2 pos = transform.position;
 
-        // Calculate new player position
-        pos += direction * speed * Time.deltaTime;
+            // Calculate new player position
+            pos += direction * speed * Time.deltaTime;
 
-        // Make sure position is in screen
-        pos.x = Mathf.Clamp(pos.x, min.x, max.x);
+            // Make sure position is in screen
+            pos.x = Mathf.Clamp(pos.x, min.x, max.x);
 
-        // Update position
-        transform.position = pos;
+            // Update position
+            transform.position = pos;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D col) 
