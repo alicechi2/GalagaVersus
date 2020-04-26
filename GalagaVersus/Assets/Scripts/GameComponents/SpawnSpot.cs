@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class SpawnSpot : MonoBehaviour
 {
-    public int playerID = 0;
+    public int playerId = 0;
 }
