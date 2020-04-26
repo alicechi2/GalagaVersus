@@ -80,9 +80,9 @@ public class PlayerControl : MonoBehaviourPun, IPunObservable
 
             GameObject bullet02 = (GameObject)Instantiate(PlayerBullet);
             bullet02.transform.position = bulletPosition02.transform.position;
-        }
 
-        if ()
+            pv.RPC("");
+        }
 
         // Move left and right depending on player input
             float x = Input.GetAxisRaw("Horizontal");
