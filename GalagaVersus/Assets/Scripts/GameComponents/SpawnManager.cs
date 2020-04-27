@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using TMPro;
 
 // Class for managing player spawns
 public class SpawnManager : MonoBehaviour
 {
-    public TMP_Text nameText; // declare the username of the player as a public variable
-
     // declare the player sprite as a public gameobject to reference
     public GameObject playerPrefab;
     public SpawnSpot[] spawnSpots;
@@ -17,7 +14,6 @@ public class SpawnManager : MonoBehaviour
     // No need to check if player is local as the scene will only load when it is
     void Start()
     {
-        nameText.text = PhotonNetwork.NickName; // set the user nickname
         // Call the spawn player function below
         SpawnPlayer();
     }
@@ -33,7 +29,7 @@ public class SpawnManager : MonoBehaviour
         int mySpawnSpot = Random.Range (0, spawnSpots.Length);
 
         // Instantiate a player in the Photon Network with its name, position, and rotation
-        PhotonNetwork.Instantiate(nameText.text, playerPrefab.transform.position, playerPrefab.transform.rotation);
+        PhotonNetwork.Instantiate(playerPrefab.name, playerPrefab.transform.position, playerPrefab.transform.rotation);
         playerPrefab.GetComponent<PlayerControl>().enabled = true;
     }
 }
