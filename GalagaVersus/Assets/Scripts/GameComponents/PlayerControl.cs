@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using TMPro;
 
 public class PlayerControl : MonoBehaviourPun, IPunObservable
 {
@@ -17,7 +18,9 @@ public class PlayerControl : MonoBehaviourPun, IPunObservable
     public bool invincible;
     public PhotonView pv; // declare a PhotonView public variable
     private Vector2 betterMove; // declare a variable to decrease lag between user movements
-    public SpriteRenderer sr;
+    public SpriteRenderer sr; // declare a public Sprite renderer component
+    public TMP_Text nameText; // declare the username of the player as a public variable
+    private Rigidbody2D rb; // declare a rigidbody object 
 
     public void Init()
     {
@@ -27,11 +30,21 @@ public class PlayerControl : MonoBehaviourPun, IPunObservable
     // Start is called before the first frame update
     void Start()
     {
-        // On start, f the user is a local photon player, enable some settings
+        PhotonNetwork.SendRate = 20;
+        PhotonNetwork.SerializationRate = 15;
+        canShoot = true;
+        invincible = false;
+        // On start, if the user is a local photon player, enable some settings
         if (photonView.IsMine) {
+            nameText.text = PhotonNetwork.NickName; // set the user nickname
             spriteColor = Color.white;
             canShoot = true;
             invincible = false;
+        }
+        else {
+            // if the player is not the local player, set the opponent player's name by accessing photon network
+            nameText.text = pv.Owner.NickName;
+            spriteColor = Color.blue;
         }
     }
 
@@ -58,6 +71,10 @@ public class PlayerControl : MonoBehaviourPun, IPunObservable
     // Function that processes user inputs
     private void ProcessUserInputs()
     {
+        // Move left and right depending on player input
+        Vector2 direction = new Vector2(Input.GetAxisRaw("Horizontal"), 0).normalized;
+        Move(direction);
+
         // Fire bullets if space pressed
         if(Input.GetKeyDown("space") && canShoot)
         {
@@ -66,17 +83,18 @@ public class PlayerControl : MonoBehaviourPun, IPunObservable
 
             GameObject bullet02 = (GameObject)Instantiate(PlayerBullet);
             bullet02.transform.position = bulletPosition02.transform.position;
-
-            // pv.RPC("");
+            pv.RPC("Shoot", RpcTarget.Others);
         }
+    }
 
-        // Move left and right depending on player input
-            float x = Input.GetAxisRaw("Horizontal");
-            float y = 0;
+    // Make the shooting functionality observable for both players using Photon
+    [PunRPC]
+    void Shoot() {
+        GameObject bullet01 = (GameObject)Instantiate(PlayerBullet);
+        bullet01.transform.position = bulletPosition01.transform.position;
 
-            Vector2 direction = new Vector2(x, y).normalized;
-
-            Move(direction);
+        GameObject bullet02 = (GameObject)Instantiate(PlayerBullet);
+        bullet02.transform.position = bulletPosition02.transform.position;
     }
 
     // Function that handles spaceship movement
@@ -104,22 +122,25 @@ public class PlayerControl : MonoBehaviourPun, IPunObservable
 
     void OnTriggerEnter2D(Collider2D col) 
     {
-        //Detect collision of player and enemy ship or bullet
-        if(col.tag == "EnemyShipTag" && !invincible)
-        {
-            // subtract one from health when hit
-            GetComponent<Health>().updateHealth(-1);
-
-            StartCoroutine(Flash());
-
-            // if player out of lives
-            if(GetComponent<Health>().health == 0) 
+        // Check if local player
+        if (photonView.IsMine) {
+            //Detect collision of player and enemy ship or bullet
+            if(col.tag == "EnemyShipTag" && !invincible)
             {
-                PlayExplosion();
-                gameObject.SetActive(false);
-                GameManagerGO.GetComponent<GameManager>().SetGameManagerState(GameManager.GameManagerState.GameOver);
-            } 
-        }    
+                // subtract one from health when hit
+                GetComponent<Health>().updateHealth(-1);
+
+                StartCoroutine(Flash());
+
+                // if player out of lives
+                if(GetComponent<Health>().health == 0) 
+                {
+                    PlayExplosion();
+                    gameObject.SetActive(false);
+                    GameManagerGO.GetComponent<GameManager>().SetGameManagerState(GameManager.GameManagerState.GameOver);
+                } 
+            }    
+        }
     }
 
     // Instantiate explosion animation

@@ -34,9 +34,6 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     [SerializeField]
     private bool roomVisible = true;
 
-    // Variable keep track of roomName declared by players
-    public string roomName;
-
     // Variables for Reciving TMP text data for the name of join rooms
     public TMP_InputField joinRoomInput;
     public TMP_InputField createRoomInput;
