@@ -6,30 +6,16 @@ using Photon.Pun;
 // Class for managing player spawns
 public class SpawnManager : MonoBehaviour
 {
-    // declare the player sprite as a public gameobject to reference
-    public GameObject playerPrefab;
-    public SpawnSpot[] spawnSpots;
+    public Transform[] spawnSpots;
 
-    // Start is called before the first frame update
-    // No need to check if player is local as the scene will only load when it is
-    void Start()
-    {
-        // Call the spawn player function below
-        SpawnPlayer();
-    }
+    // declare game setup variable
+    public static SpawnManager GS;
 
-    // A function that controlls how players are spawned
-    void SpawnPlayer(){
-        // If there are no spawn spots that are available, raise a log error
-        if (spawnSpots == null) {
-            Debug.LogError("Both of the spawn spots have been occupied");
-            return;
+    // An event function that runs when this script is enabled
+    private void OnEnable() {
+        if (SpawnManager.GS == null)
+        {
+            SpawnManager.GS = this;
         }
-        // Instantiate the position of the player randomly to be either at the top of the screen or the bottom
-        int mySpawnSpot = Random.Range (0, spawnSpots.Length);
-
-        // Instantiate a player in the Photon Network with its name, position, and rotation
-        PhotonNetwork.Instantiate(playerPrefab.name, playerPrefab.transform.position, playerPrefab.transform.rotation);
-        playerPrefab.GetComponent<PlayerControl>().enabled = true;
     }
 }
