@@ -40,7 +40,8 @@ public class PlayerBullet : MonoBehaviour
         //If the bullet goes off the screen, destory the gameobject
         if(transform.position.y > maxPos.y)
         {
-            this.GetComponent<PhotonView>().RPC("destroy", RpcTarget.AllBuffered);
+            // this.GetComponent<PhotonView>().RPC("destroy", RpcTarget.AllBuffered);
+            Destroy(gameObject);
         }
     }
 

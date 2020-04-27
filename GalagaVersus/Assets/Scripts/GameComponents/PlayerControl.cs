@@ -9,10 +9,9 @@ using TMPro;
 public class PlayerControl : MonoBehaviourPun, IPunObservable
 {
     public GameObject GameManagerGO; // This is our game manager
-    public GameObject playerPrefab; // This is the spaceship GameObject
     public GameObject PlayerBullet;
-    public Transform bulletPosition01;
-    public Transform bulletPosition02;
+    public GameObject bulletPosition01; // TODO: Consider this being a Transform
+    public GameObject bulletPosition02;
     public GameObject ExplosionGO; // Explosion Animation
     public float speed;
     public Color spriteColor; //default color of sprite
@@ -40,11 +39,6 @@ public class PlayerControl : MonoBehaviourPun, IPunObservable
         if (photonView.IsMine) {
             nameText.text = PhotonNetwork.NickName; // set the user nickname
             spriteColor = Color.white;
-            canShoot = true;
-            invincible = false;
-
-            // Call the spawn player function to spawn the player
-            SpawnPlayer();
         }
         else {
             // if the player is not the local player, set the opponent player's name by accessing photon network
@@ -65,22 +59,6 @@ public class PlayerControl : MonoBehaviourPun, IPunObservable
             // When the photonView discovers that you are not a local player
             smoothMovement();
         }
-    }
-
-    // A function that controlls how players are spawned
-    void SpawnPlayer(){
-        // If there are no spawn spots that are available, raise a log error
-        if (SpawnManager.GS.spawnSpots == null) {
-            Debug.LogError("Both of the spawn spots have been occupied");
-            return;
-        }
-        // Instantiate the position of the player randomly to be either at the top of the screen or the bottom
-        int mySpawnSpot = Random.Range (0, SpawnManager.GS.spawnSpots.Length);
-
-        // Instantiate a player in the Photon Network with its name, position, and rotation
-        playerPrefab = PhotonNetwork.Instantiate(Path.Combine("Resources", "Player"), SpawnManager.GS.spawnSpots[mySpawnSpot].position, 
-            SpawnManager.GS.spawnSpots[mySpawnSpot].rotation, 0);
-        playerPrefab.GetComponent<PlayerControl>().enabled = true;
     }
 
     // non-local player handling function (makes user movement more smooth)
@@ -105,8 +83,15 @@ public class PlayerControl : MonoBehaviourPun, IPunObservable
 
     // Make the shooting functionality observable for both players using Photon
     public void Shoot() {
-        GameObject bullet01 = PhotonNetwork.Instantiate(PlayerBullet.name, bulletPosition01.position, Quaternion.identity);
-        GameObject bullet02 = PhotonNetwork.Instantiate(PlayerBullet.name, bulletPosition02.position, Quaternion.identity);
+        // TODO: Somehow have to make the bullets photon objects
+        // GameObject bullet01 = PhotonNetwork.Instantiate(PlayerBullet.name, bulletPosition01.position, Quaternion.identity);
+        // GameObject bullet02 = PhotonNetwork.Instantiate(PlayerBullet.name, bulletPosition02.position, Quaternion.identity);
+
+        GameObject bullet01 = (GameObject)Instantiate(PlayerBullet);
+        bullet01.transform.position = bulletPosition01.transform.position;
+
+        GameObject bullet02 = (GameObject)Instantiate(PlayerBullet);
+        bullet02.transform.position = bulletPosition02.transform.position;
     }
 
     // Function that handles spaceship movement
