@@ -36,6 +36,7 @@ public class EnemySpawner : MonoBehaviour
             GameObject anEnemy = (GameObject)Instantiate(EnemySprite);
             anEnemy.transform.position = new Vector2(-10,-10);
             anEnemy.GetComponent<EnemyControl>().enemySpawnPath = EnemyPaths[index];
+            anEnemy.GetComponent<EnemyControl>().enemyID = index;
             index++;
         }
     }
